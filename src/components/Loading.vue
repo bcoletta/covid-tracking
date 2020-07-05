@@ -1,8 +1,9 @@
 <template>
   <v-container fluid>
-    <v-row align="center">
-      <v-col class="text-center" cols="12">Loading...</v-col>
-    </v-row>
+    <v-skeleton-loader class="mx-auto" type="text"></v-skeleton-loader>
+    <v-skeleton-loader class="mx-auto" type="image"></v-skeleton-loader>
+    <v-skeleton-loader class="mx-auto" type="text"></v-skeleton-loader>
+    <v-skeleton-loader class="mx-auto" type="table"></v-skeleton-loader>
   </v-container>
 </template>
 

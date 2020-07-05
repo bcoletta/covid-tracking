@@ -38,25 +38,13 @@ export default {
         datasets: [
           {
             label: 'Daily Positivity Rate',
-            borderColor: '#f00',
+            borderColor: 'rgba(0, 0, 255, 0.5)',
             lineTension: 0,
             fill: false,
             data: this.dataset.map(item => item.positivityRate),
           },
           {
-            label: '14 Day Average',
-            borderColor: '#000',
-            fill: false,
-            data: this.dataset.map(item => item.avg14Days),
-          },
-          {
-            label: '5 Day Average',
-            borderColor: '#888',
-            fill: false,
-            data: this.dataset.map(item => item.avg5Days),
-          },
-          {
-            label: 'Target line',
+            label: 'DPR Target',
             borderColor: 'rgba(0, 0, 255, 0.3)',
             fill: false,
             data: this.dataset.map(() => 5),
@@ -64,11 +52,21 @@ export default {
             pointRadius: 0,
           },
           {
-            label: 'New Tests',
+            label: 'Daily Cases',
+            backgroundColor: this.dataset.map(item => item.color),
             yAxisID: 'tests',
-            borderColor: '#888',
+            data: this.dataset.map(item => item.positiveIncrease),
+            type: 'bar',
+            stacked: true,
+            stack: 'tests',
+          },
+          {
+            label: 'Daily Tests',
+            yAxisID: 'tests',
             data: this.dataset.map(item => item.totalTestResultsIncrease),
             type: 'bar',
+            stacked: true,
+            stack: 'tests',
           },
         ],
       };
@@ -86,13 +84,24 @@ export default {
           lineHeight: 2,
         },
         scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: false,
+              },
+            },
+          ],
           yAxes: [
             {
               id: 'percent',
               type: 'linear',
               position: 'left',
+              gridLines: {
+                display: false,
+              },
               ticks: {
                 min: 0,
+                max: this.category === 'US' ? 50 : 100,
               },
             },
             {
@@ -101,6 +110,7 @@ export default {
               position: 'right',
               ticks: {
                 min: 0,
+                maxTicksLimit: 11,
               },
             },
           ],

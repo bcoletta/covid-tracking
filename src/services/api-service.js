@@ -3,12 +3,12 @@ import moment from 'moment'
 
 let baseUri = 'https://covidtracking.com/api/v1/'
 
-let getRunningAverages = (data, index, count) => {
+let getRunningAverages = (data, key, index, count) => {
   let end = index + count;
   if (end > data.length) {
     return null;
   }
-  let dataArr = [ ...data ].slice(index, end).map(item => item.positivityRate);
+  let dataArr = [ ...data ].slice(index, end).map(item => item[key]);
   return dataArr.reduce((a, b) => a + b) / count;
 }
 
@@ -21,6 +21,10 @@ let getPositivityRate = (item) => {
   return isNaN(rate) ? 0 : rate;
 }
 
+let getColor = (item) => {
+  return item.positivityRate < 5 ? 'rgba(0, 255, 0, 0.3)' : 'rgba(255, 0, 0, 0.3)';
+}
+
 let mapData = (data) => {
   let returnData = data.map((item) => {
     return {
@@ -31,9 +35,13 @@ let mapData = (data) => {
   return returnData.map((item, index) => {
     return {
       ...item,
-      avg14Days: getRunningAverages(returnData, index, 14),
-      avg5Days: getRunningAverages(returnData, index, 5),
+      color: getColor(item),
+      avg14Days: getRunningAverages(returnData, 'positivityRate', index, 14),
+      avg5Days: getRunningAverages(returnData, 'positivityRate', index, 5),
     }
+  }).filter(item => {
+    let date = new Date(item.dateChecked);
+    return date > new Date('2020-03-01T00:00:00Z')
   });
 }
 
