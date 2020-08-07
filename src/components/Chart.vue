@@ -15,7 +15,7 @@ export default {
     dataset() {
       return [ ...this.data ]
         .filter(
-          item =>
+          (item) =>
             item.totalTestResultsIncrease &&
             item.totalTestResultsIncrease !== 0 &&
             moment(item.dateChecked).isAfter(this.lastDate),
@@ -32,7 +32,7 @@ export default {
   methods: {
     setupTable() {
       let displayData = {
-        labels: this.dataset.map(item =>
+        labels: this.dataset.map((item) =>
           moment(item.dateChecked).format('MM/DD'),
         ),
         datasets: [
@@ -41,7 +41,7 @@ export default {
             borderColor: 'rgba(0, 0, 255, 0.5)',
             lineTension: 0,
             fill: false,
-            data: this.dataset.map(item => item.positivityRate),
+            data: this.dataset.map((item) => item.positivityRate),
           },
           {
             label: 'DPR Target',
@@ -53,9 +53,9 @@ export default {
           },
           {
             label: 'Daily Cases',
-            backgroundColor: this.dataset.map(item => item.color),
+            backgroundColor: this.dataset.map((item) => item.color),
             yAxisID: 'tests',
-            data: this.dataset.map(item => item.positiveIncrease),
+            data: this.dataset.map((item) => item.positiveIncrease),
             type: 'bar',
             stacked: true,
             stack: 'tests',
@@ -63,7 +63,7 @@ export default {
           {
             label: 'Daily Tests',
             yAxisID: 'tests',
-            data: this.dataset.map(item => item.totalTestResultsIncrease),
+            data: this.dataset.map((item) => item.totalTestResultsIncrease),
             type: 'bar',
             stacked: true,
             stack: 'tests',
@@ -94,6 +94,10 @@ export default {
           yAxes: [
             {
               id: 'percent',
+              scaleLabel: {
+                display: true,
+                labelString: 'Positivity Rate (%)',
+              },
               type: 'linear',
               position: 'left',
               gridLines: {
@@ -106,6 +110,10 @@ export default {
             },
             {
               id: 'tests',
+              scaleLabel: {
+                display: true,
+                labelString: 'Number of Tests',
+              },
               type: 'linear',
               position: 'right',
               ticks: {
