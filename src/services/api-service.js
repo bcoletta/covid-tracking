@@ -1,7 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 
-let baseUri = 'https://covidtracking.com/api/v1/'
+let baseUri = 'https://api.covidtracking.com/api/v1'
 
 let getRunningAverages = (data, key, index, count) => {
   let end = index + count;
